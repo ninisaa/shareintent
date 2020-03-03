@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +53,17 @@ public class HeroesAdapter extends RecyclerView.Adapter<HeroesAdapter.ViewHolder
                 move.putExtra("name",getHeroesModels().get(i).getHeroName());
                 move.putExtra("detail", getHeroesModels().get(i).getHeroDetail());
                 context.startActivity(move);
+
+            }
+        });
+        viewHolder.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Intent.ACTION_SEND);
+                myIntent.setType("text/plain");
+                String detail = getHeroesModels().get(i).getHeroDetail();
+                myIntent.putExtra(Intent.EXTRA_TEXT,  detail);
+                context.startActivity(myIntent.createChooser(myIntent, "Share using"));
             }
         });
 
@@ -64,6 +76,7 @@ public class HeroesAdapter extends RecyclerView.Adapter<HeroesAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView iv_hero;
+        private Button btnShare;
         private TextView tv_heroName, tv_heroDetail;
         private LinearLayout hero;
         public ViewHolder(@NonNull View itemView) {
@@ -72,6 +85,8 @@ public class HeroesAdapter extends RecyclerView.Adapter<HeroesAdapter.ViewHolder
             tv_heroName = itemView.findViewById(R.id.tv_heroName);
             tv_heroDetail = itemView.findViewById(R.id.tv_heroDetail);
             hero = itemView.findViewById(R.id.hero);
+            btnShare = itemView.findViewById(R.id.btnShare);
+
         }
     }
 }
